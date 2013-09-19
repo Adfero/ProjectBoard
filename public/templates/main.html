@@ -1,1 +1,9 @@
 <h2>Main</h2>
+<ul>
+	<li ng-repeat="project in projects | orderBy:'-updated_at'">
+		<span class="name">{{project.name}}</span>
+		<span class="todos">
+			<span class="completed">{{project.todolists.summary.incomplete}}</span>
+		</span>
+	</li>
+</ul>

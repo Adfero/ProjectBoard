@@ -15,6 +15,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.errorHandler());
 
 var client = new basecamp.Client(config.basecamp.id, config.basecamp.secret, config.basecamp.redirect, config.basecamp.useragent);
+var accounts = {};
 
 app.get('/identity',function(req,res) {
 	if (req.session.userInfo) {
@@ -39,8 +40,8 @@ app.get('/authorize',function(req,res) {
 });
 
 app.get('/account',function(req,res) {
-	if (req.session.account) {
-		res.send(200,req.session.account.account)
+	if (accounts[req.sessionID]) {
+		res.send(200,accounts[req.sessionID].account);
 	} else {
 		res.send(200);
 	}
@@ -67,11 +68,8 @@ app.post('/account',function(req,res) {
 				console.log(error);
 				res.send(500);
 			} else {
-				req.session.account = account;
-				res.send(200,req.session.account.account);
-				account.req('get_projects',function(error, result) {
-					console.log(result);
-				});
+				accounts[req.sessionID] = account;
+				res.send(200,accounts[req.sessionID].account);
 			}
 		});
 	} else {
@@ -80,8 +78,15 @@ app.post('/account',function(req,res) {
 });
 
 app.get('/projects',function(req,res) {
-	if (req.session.account) {
-		req.session.account.req('get_projects',function(error, result) {
+	if (accounts[req.sessionID]) {
+		accounts[req.sessionID].req('get_projects',function(error, result) {
+			// result.sort(function(a,b) {
+			// 	var dateA = Date.parse(a);
+			// 	var dateB = Date.parse(b);
+			// 	console.log(dateA);
+			// 	return dateB - dateA;
+			// }); 
+			// TODO: Figure out date parsing in node
 			res.send(200,result);
 		});
 	} else {
@@ -89,8 +94,20 @@ app.get('/projects',function(req,res) {
 	}
 });
 
-app.get('/project/:id',function(req,res) {
-	//TODO
+app.get('/todolists/:projectid',function(req,res) {
+	if (accounts[req.sessionID] && req.params.projectid) {
+		var project = new basecamp.Project(accounts[req.sessionID], req.params.projectid);
+		project.req('get_todolists', {}, function(error, result) {
+			if (error) {
+				console.log(error);
+				res.send(500);
+			} else {
+				res.send(200,result);
+			}
+		});
+	} else {
+		res.send(500)
+	}
 });
 
 http.createServer(app).listen(config.express.port, function(){

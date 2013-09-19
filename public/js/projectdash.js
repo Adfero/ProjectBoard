@@ -7,11 +7,21 @@ angular.module('projectdash', []).
 	}).
 	factory('basecamp',function($http) {
 		return {
-			getIdentity: function() {
-				return $http.get('/identity');
+			getIdentity: function(callback) {
+				return $http.get('/identity')
+					.then(function(result) {
+						callback(result.data);
+					});
 			},
-			getAccount: function() {
-				return $http.get('/account');
+			getAccount: function(callback) {
+				return $http.get('/account')
+					.then(function(result) {
+						if (result.data instanceof Object) {
+							callback(result.data)
+						} else {
+							callback(false);
+						}
+					});
 			},
 			getAccounts: function() {
 				return $http.get('/accounts').
@@ -23,14 +33,41 @@ angular.module('projectdash', []).
 						}
 					});
 			},
-			isLoggedIn: function(callback) {
-				this.getIdentity().
+			getProjects: function(callback) {
+				return $http.get('/projects').
 					then(function(result) {
-						if (result.data.link) 
-							callback(false);
-						else
-							callback(true);
+						if (result.data instanceof Array) {
+							callback(result.data);
+							return result.data;
+						} else {
+							callback([]);
+							return [];
+						}
 					});
+			},
+			getTodoLists: function(project) {
+				return $http.get('/todolists/'+project.id).
+					then(function(result) {
+						if (result.data instanceof Object) {
+							project.todolists = {
+								all: result.data,
+								summary: {
+									incomplete: 0
+								}
+							};
+							result.data.forEach(function(todolist) {
+								project.todolists.summary.incomplete += todolist.remaining_count;
+							})
+						}
+					});
+			},
+			isLoggedIn: function(callback) {
+				this.getIdentity(function(data) {
+					if (data.link) 
+						callback(false);
+					else
+						callback(true);
+				});
 			},
 			selectAccount: function(accountId,callback) {
 				$http.post('/account',{id:accountId}).
@@ -44,14 +81,17 @@ angular.module('projectdash', []).
 function MainCtrl($scope, $location, $timeout, basecamp) {
 	basecamp.isLoggedIn(function(loggedin) {
 		if (loggedin) {
-			basecamp.getAccount().
-				success(function(data, status, headers, config) {
-					if (data instanceof Object) {
-
-					} else {
-						$location.path('/accounts');
-					}
-				});
+			basecamp.getAccount(function(account) {
+				if (account != false) {
+					$scope.projects = basecamp.getProjects(function(projects) {
+						projects.forEach(function(project) {
+							basecamp.getTodoLists(project);
+						});
+					});
+				} else {
+					$location.path('/accounts');
+				}
+			});
 		} else {
 			$location.path('/login');
 		}
@@ -59,14 +99,13 @@ function MainCtrl($scope, $location, $timeout, basecamp) {
 }
 
 function LoginCtrl($scope, $location, $timeout, basecamp) {
-	basecamp.getIdentity().
-		success(function(data, status, headers, config) {
-			if (data.link) {
-				$scope.login = data.link;
-			} else {
-				$location.path('/');
-			}
-		});
+	basecamp.getIdentity(function(data) {
+		if (data.link) {
+			$scope.login = data.link;
+		} else {
+			$location.path('/');
+		}
+	});
 }
 
 function AccountCtrl($scope, $location, $timeout, basecamp) {
