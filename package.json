@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "express": "3.4.0",
-    "basecamp": "0.2.0"
+    "basecamp": "0.2.0",
+    "connect-redis": "1.4.5",
+    "redis": "0.8.4"
   }
 }
