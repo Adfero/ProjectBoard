@@ -1,0 +1,133 @@
+@import "_reset.scss";
+
+$color_red: #e00;
+$color_red_dark: #c00;
+
+$color_green: #0b0;
+$color_green_dark: #090;
+
+body {
+	font-family: Helvetica, sans-serif;
+	font-size: 14px;
+	line-height: 1em;
+	color: #333;
+}
+
+@mixin bordered_window {
+	box-shadow: 0 0 50px rgba(0,0,0,0.25);
+}
+
+@mixin transition {
+	transition: all 0.25s;
+	-o-transition: all 0.25s;
+	-ms-transition: all 0.25s;
+	-moz-transition: all 0.25s;
+	-webkit-transition: all 0.25s;
+}
+
+.window {
+	padding: 2em;
+	background: #fff;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+
+	&.large {
+
+	}
+	&.medium {
+		@include bordered_window;
+		width: 960px;
+		height: 500px;
+	}
+	&.small {
+		@include bordered_window;
+		width: 400px;
+		height: 300px;
+	}
+
+	p {
+		margin: 0 0 1em 0;
+		line-height: 1.25em;
+	}
+
+	h2 {
+		font-size: 2em;
+		line-height: 1em;
+		text-transform: uppercase;
+		color: #ccc;
+	}
+}
+
+.button {
+	background: $color_green;
+	border-radius: 10px;
+	color: white;
+	text-decoration: none;
+	display: inline-block;
+	padding: 0.5em 1em;
+	text-transform: uppercase;
+	font-size: 18px;
+	line-height: 1em;
+	@include transition;
+
+	&:hover {
+		background: $color_green_dark;
+	}
+}
+
+.main {
+	ul {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-around;
+  		
+		li {
+			width: 200px;
+			margin: 1em;
+			padding: 1em;
+			background: #efefef;
+		}
+	}
+}
+
+.login {
+	p {
+		text-align: center;
+		font-size: 20px;
+		line-height: 1em;
+	}
+
+	h2 {
+		margin-bottom: 2.5em;
+	}
+}
+.accounts {
+	ul {
+		margin: 1em 0 0 0;
+		overflow: scroll;
+
+		li {
+			display: inline;
+
+			a {
+				display: block;
+				margin: 0 0 1em 0;
+				padding: 1em;
+				background: #eee;
+				color: $color_red;
+				text-decoration: none;
+				font-size: 1.5em;
+				line-height: 1em;
+				@include transition;
+
+				&:hover {
+					background: #ddd;
+				}
+			}
+		}
+	}	
+}
