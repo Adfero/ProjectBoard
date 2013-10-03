@@ -6,9 +6,11 @@ $color_red_dark: #c00;
 $color_green: #0b0;
 $color_green_dark: #090;
 
+$color_gray: #999;
+
 body {
-	font-family: Helvetica, sans-serif;
-	font-size: 14px;
+	font-family: Avenir, Helvetica, sans-serif;
+	font-size: 20px;
 	line-height: 1em;
 	color: #333;
 }
@@ -86,10 +88,64 @@ body {
 		justify-content: space-around;
   		
 		li {
-			width: 200px;
-			margin: 1em;
-			padding: 1em;
-			background: #efefef;
+			width: 300px;
+			margin: 1em 0.5em;
+			padding: 0.5em;
+			background: #fefefe;
+			border: #eee solid 1px;
+			border-radius: 3px;
+			
+			p {
+				margin: 0;
+
+				span {
+					display: block;
+					clear: both;
+
+					&.caption {
+						text-transform: uppercase;
+						color: $color_gray;
+						font-size: 0.9em;
+						line-height: 1em;
+					}
+				}
+
+				&.todos {
+					width: 65%;
+					float: left;
+					border-right: #ccc solid 1px;
+					padding-right: 3%;
+
+					.number {
+						color: $color_red;
+						text-align: center;
+						font-size: 7em;
+						line-height: 1em;
+						font-weight: bold;
+					}
+
+					.caption {
+						text-align: center;
+					}
+				}
+
+				&.duedate {
+					width: 27%;
+					float: right;
+
+					.date {
+						color: $color_red;
+					}
+				}
+
+				&.name {
+					font-size: 0.8em;
+					line-height: 1em;
+					clear: both;
+					text-align: center;
+					padding-top: 0.75em;
+				}
+			}
 		}
 	}
 }

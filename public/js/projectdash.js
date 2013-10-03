@@ -1,3 +1,17 @@
+var month=new Array();
+month[0]="January";
+month[1]="February";
+month[2]="March";
+month[3]="April";
+month[4]="May";
+month[5]="June";
+month[6]="July";
+month[7]="August";
+month[8]="September";
+month[9]="October";
+month[10]="November";
+month[11]="December";
+
 angular.module('projectdash', []).
 	config(function($routeProvider) {
 		$routeProvider.
@@ -57,7 +71,19 @@ angular.module('projectdash', []).
 							};
 							result.data.forEach(function(todolist) {
 								project.todolists.summary.incomplete += todolist.remaining_count;
-							})
+							});
+						}
+					});
+			},
+			getEvents: function(project) {
+				return $http.get('/events/'+project.id).
+					then(function(result) {
+						if (result.data instanceof Object) {
+							if (result.data.length > 0) {
+								var lastEvent = result.data[result.data.length-1];
+								var date = new Date(Date.parse(lastEvent.ends_at));
+								project.duedate = month[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
+							}
 						}
 					});
 			},
@@ -86,6 +112,7 @@ function MainCtrl($scope, $location, $timeout, basecamp) {
 					$scope.projects = basecamp.getProjects(function(projects) {
 						projects.forEach(function(project) {
 							basecamp.getTodoLists(project);
+							basecamp.getEvents(project);
 						});
 					});
 				} else {
@@ -95,7 +122,14 @@ function MainCtrl($scope, $location, $timeout, basecamp) {
 		} else {
 			$location.path('/login');
 		}
-	})
+	});
+	$scope.activeProject = function(project) {
+		if (project.todolists) {
+			return project.todolists.summary.incomplete > 0;
+		} else {
+			return true;
+		}		
+	}
 }
 
 function LoginCtrl($scope, $location, $timeout, basecamp) {

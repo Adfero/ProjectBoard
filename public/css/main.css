@@ -36,8 +36,8 @@ table {
   border-spacing: 0; }
 
 body {
-  font-family: Helvetica, sans-serif;
-  font-size: 14px;
+  font-family: Avenir, Helvetica, sans-serif;
+  font-size: 20px;
   line-height: 1em;
   color: #333; }
 
@@ -90,10 +90,46 @@ body {
   flex-flow: row wrap;
   justify-content: space-around; }
   .main ul li {
-    width: 200px;
-    margin: 1em;
-    padding: 1em;
-    background: #efefef; }
+    width: 300px;
+    margin: 1em 0.5em;
+    padding: 0.5em;
+    background: #fefefe;
+    border: #eee solid 1px;
+    border-radius: 3px; }
+    .main ul li p {
+      margin: 0; }
+      .main ul li p span {
+        display: block;
+        clear: both; }
+        .main ul li p span.caption {
+          text-transform: uppercase;
+          color: #999999;
+          font-size: 0.9em;
+          line-height: 1em; }
+      .main ul li p.todos {
+        width: 65%;
+        float: left;
+        border-right: #ccc solid 1px;
+        padding-right: 3%; }
+        .main ul li p.todos .number {
+          color: #ee0000;
+          text-align: center;
+          font-size: 7em;
+          line-height: 1em;
+          font-weight: bold; }
+        .main ul li p.todos .caption {
+          text-align: center; }
+      .main ul li p.duedate {
+        width: 27%;
+        float: right; }
+        .main ul li p.duedate .date {
+          color: #ee0000; }
+      .main ul li p.name {
+        font-size: 0.8em;
+        line-height: 1em;
+        clear: both;
+        text-align: center;
+        padding-top: 0.75em; }
 
 .login p {
   text-align: center;

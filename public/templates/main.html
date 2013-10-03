@@ -1,10 +1,15 @@
 <div class="window large main">
 	<ul>
-		<li ng-repeat="project in projects | orderBy:'-updated_at'">
-			<span class="name">{{project.name}}</span>
-			<span class="todos">
-				<span class="completed">{{project.todolists.summary.incomplete}}</span>
-			</span>
+		<li ng-repeat="project in projects | orderBy:'-updated_at' | filter:activeProject">
+			<p class="todos">
+				<span class="number">{{project.todolists.summary.incomplete}}</span>				
+				<span class="caption">Todos Remaining</span>
+			</p>
+			<p class="duedate">
+				<span class="caption">Project Due:</span>
+				<span class="date">{{project.duedate}}</span>
+			</p>
+			<p class="name">{{project.name}}</p>
 		</li>
 	</ul>
 </div>

@@ -110,6 +110,24 @@ app.get('/todolists/:projectid',function(req,res) {
 	}
 });
 
+app.get('/events/:projectid',function(req,res) {
+	if (accounts[req.sessionID] && req.params.projectid) {
+		var project = new basecamp.Project(accounts[req.sessionID], req.params.projectid);
+		project.req('get_calendar_events', {}, function(error, result) {
+			if (error) {
+				console.log(error);
+				res.send(500);
+			} else {
+				res.send(200,result);
+			}
+		});
+	} else {
+		res.send(500)
+	}
+});
+
 http.createServer(app).listen(config.express.port, function(){
 	console.log('Express server listening');
 });
+
+
