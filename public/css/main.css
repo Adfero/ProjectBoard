@@ -62,7 +62,7 @@ body {
     margin: 0 0 1em 0;
     line-height: 1.25em; }
   .window h2 {
-    font-size: 2em;
+    font-size: 1.5em;
     line-height: 1em;
     text-transform: uppercase;
     color: #ccc; }
@@ -85,51 +85,94 @@ body {
   .button:hover {
     background: #009900; }
 
-.main ul {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-around; }
-  .main ul li {
-    width: 300px;
-    margin: 1em 0.5em;
-    padding: 0.5em;
-    background: #fefefe;
-    border: #eee solid 1px;
-    border-radius: 3px; }
-    .main ul li p {
-      margin: 0; }
-      .main ul li p span {
-        display: block;
-        clear: both; }
-        .main ul li p span.caption {
-          text-transform: uppercase;
-          color: #999999;
-          font-size: 0.9em;
-          line-height: 1em; }
-      .main ul li p.todos {
-        width: 65%;
-        float: left;
-        border-right: #ccc solid 1px;
-        padding-right: 3%; }
-        .main ul li p.todos .number {
-          color: #ee0000;
-          text-align: center;
-          font-size: 7em;
+.main > div {
+  position: absolute;
+  top: 0;
+  bottom: 0; }
+.main .message {
+  background: #eee;
+  padding: 0.5em;
+  margin: 0.5em 0; }
+  .main .message.inactive {
+    display: none; }
+.main .current_projects {
+  width: 70%;
+  left: 0; }
+  .main .current_projects ul {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start; }
+    .main .current_projects ul li {
+      width: 300px;
+      margin: 1em 0.5em;
+      padding: 0.5em;
+      background: #fefefe;
+      border: #eee solid 1px;
+      border-radius: 3px; }
+      .main .current_projects ul li p {
+        margin: 0; }
+        .main .current_projects ul li p span {
+          display: block;
+          clear: both; }
+          .main .current_projects ul li p span.caption {
+            text-transform: uppercase;
+            color: #999999;
+            font-size: 0.8em;
+            line-height: 1em; }
+        .main .current_projects ul li p.todos {
+          width: 65%;
+          float: left;
+          border-right: #ccc solid 1px;
+          padding-right: 3%;
+          margin-bottom: 0.7em; }
+          .main .current_projects ul li p.todos .number {
+            color: #ee0000;
+            text-align: center;
+            font-size: 7em;
+            line-height: 1em;
+            font-weight: bold; }
+          .main .current_projects ul li p.todos .caption {
+            text-align: center; }
+        .main .current_projects ul li p.duedate {
+          width: 27%;
+          float: right; }
+          .main .current_projects ul li p.duedate .date {
+            color: #ee0000; }
+        .main .current_projects ul li p.nextevent {
+          width: 27%;
+          float: right;
+          margin-top: 0.5em; }
+          .main .current_projects ul li p.nextevent .date {
+            color: #ee0000; }
+        .main .current_projects ul li p.name {
+          font-size: 0.8em;
           line-height: 1em;
-          font-weight: bold; }
-        .main ul li p.todos .caption {
-          text-align: center; }
-      .main ul li p.duedate {
-        width: 27%;
-        float: right; }
-        .main ul li p.duedate .date {
-          color: #ee0000; }
-      .main ul li p.name {
-        font-size: 0.8em;
-        line-height: 1em;
-        clear: both;
-        text-align: center;
-        padding-top: 0.75em; }
+          clear: both;
+          text-align: center;
+          padding: 0.3em;
+          background: #eee; }
+.main .overdue_projects {
+  right: 0;
+  width: 30%; }
+  .main .overdue_projects ul li {
+    display: block;
+    clear: both;
+    border: #ee0000 1px solid;
+    border-right: none;
+    padding: 0.5em;
+    margin: 0.5em 0;
+    font-size: 0.8em;
+    line-height: 1.25em; }
+    .main .overdue_projects ul li .project {
+      font-weight: bold; }
+    .main .overdue_projects ul li .date {
+      display: block;
+      clear: both;
+      font-size: 0.8em;
+      line-height: 1em;
+      background: #eee;
+      padding: 0.5em;
+      margin: 0.5em 0 0 0; }
 
 .login p {
   text-align: center;
